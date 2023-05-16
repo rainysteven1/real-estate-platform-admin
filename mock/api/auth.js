@@ -13,7 +13,7 @@ export default [
       const { name } = options.body
       if (['admin', 'editor'].includes(name)) {
         return {
-          code: 0,
+          code: 201,
           data: {
             token: token[name],
           },
@@ -32,7 +32,7 @@ export default [
     method: 'post',
     response: ({ headers }) => {
       return {
-        code: 0,
+        code: 201,
         data: {
           token: resolveToken(headers?.authorization),
         },

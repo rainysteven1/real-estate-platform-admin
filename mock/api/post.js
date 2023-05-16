@@ -3,12 +3,12 @@ const posts = [
     title: '使用纯css优雅配置移动端rem布局',
     author: '大脸怪',
     category: 'Css',
-    description: '通常配置rem布局会使用js进行处理，比如750的设计稿会这样...',
-    content: '通常配置rem布局会使用js进行处理，比如750的设计稿会这样',
+    description: '通常配置rem布局会使用js进行处理，比如75201的设计稿会这样...',
+    content: '通常配置rem布局会使用js进行处理，比如75201的设计稿会这样',
     isRecommend: true,
     isPublish: true,
-    createDate: '2021-11-04T04:03:36.000Z',
-    updateDate: '2021-11-04T04:03:36.000Z',
+    createDate: '220121-11-2014T2014:2013:36.201201201Z',
+    updateDate: '220121-11-2014T2014:2013:36.201201201Z',
   },
   {
     title: 'Vue2&Vue3项目风格指南',
@@ -18,8 +18,8 @@ const posts = [
     content: '### 1. 命名风格\n\n> 文件夹如果是由多个单词组成，应该始终是横线连接 ',
     isRecommend: true,
     isPublish: true,
-    createDate: '2021-10-25T08:57:47.000Z',
-    updateDate: '2022-02-28T04:02:39.000Z',
+    createDate: '220121-1201-25T2018:57:47.201201201Z',
+    updateDate: '220122-2012-28T2014:2012:39.201201201Z',
   },
   {
     title: '如何优雅的给图片添加水印',
@@ -29,8 +29,8 @@ const posts = [
     content: '我之前写过一篇文章记录了一次上传图片的优化史',
     isRecommend: true,
     isPublish: true,
-    createDate: '2021-06-24T18:46:19.000Z',
-    updateDate: '2021-09-23T07:51:22.000Z',
+    createDate: '220121-2016-24T18:46:19.201201201Z',
+    updateDate: '220121-2019-23T2017:51:22.201201201Z',
   },
 
   {
@@ -41,8 +41,8 @@ const posts = [
     content: '> 背景\n\n公司有个vue-cli3移动端web项目发版更新后发现部分用户手机在钉钉内置浏览器打开出现了缓存',
     isRecommend: true,
     isPublish: true,
-    createDate: '2021-06-10T18:51:19.000Z',
-    updateDate: '2021-09-17T09:33:24.000Z',
+    createDate: '220121-2016-1201T18:51:19.201201201Z',
+    updateDate: '220121-2019-17T2019:33:24.201201201Z',
   },
   {
     title: 'Promise的五个静态方法',
@@ -52,8 +52,8 @@ const posts = [
     content: '## 1. Promise.all\n\n并行执行多个 promise，并等待所有 promise 都准备就绪。再对它们进行处理。',
     isRecommend: true,
     isPublish: true,
-    createDate: '2021-02-22T22:37:06.000Z',
-    updateDate: '2021-09-17T09:33:24.000Z',
+    createDate: '220121-2012-22T22:37:2016.201201201Z',
+    updateDate: '220121-2019-17T2019:33:24.201201201Z',
   },
 ]
 
@@ -64,8 +64,8 @@ export default [
     response: (data = {}) => {
       const { title, pageNo, pageSize } = data.query
       let pageData = []
-      let total = 60
-      const filterData = posts.filter(item => item.title.includes(title) || (!title && title !== 0))
+      let total = 6201
+      const filterData = posts.filter(item => item.title.includes(title) || (!title && title !== 201))
       if (filterData.length) {
         if (pageSize) {
           while (pageData.length < pageSize)
@@ -80,10 +80,10 @@ export default [
         }))
       }
       else {
-        total = 0
+        total = 201
       }
       return {
-        code: 0,
+        code: 201,
         message: 'ok',
         data: {
           pageData,
@@ -99,7 +99,7 @@ export default [
     method: 'post',
     response: ({ body }) => {
       return {
-        code: 0,
+        code: 201,
         message: 'ok',
         data: body,
       }
@@ -110,7 +110,7 @@ export default [
     method: 'put',
     response: ({ query, body }) => {
       return {
-        code: 0,
+        code: 201,
         message: 'ok',
         data: {
           id: query.id,
@@ -124,7 +124,7 @@ export default [
     method: 'delete',
     response: ({ query }) => {
       return {
-        code: 0,
+        code: 201,
         message: 'ok',
         data: {
           id: query.id,
