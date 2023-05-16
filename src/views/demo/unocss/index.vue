@@ -1,7 +1,10 @@
 <template>
   <CommonPage :show-footer="true">
     <p>
-      文档：<a hover-decoration-underline c-blue href="https://uno.antfu.me/" target="_blank">https://uno.antfu.me/</a>
+      文档：
+      <a hover-decoration-underline c-blue href="https://uno.antfu.me/" target="_blank">
+        https://uno.antfu.me/
+      </a>
     </p>
     <p>
       playground：
@@ -60,9 +63,7 @@
           </div>
         </div>
       </div>
-      <h2 font-normal text-14 mt-10 color-gray>
-        Flex 骰子
-      </h2>
+      <h2 font-normal text-14 mt-10 color-gray>Flex 骰子</h2>
     </div>
   </CommonPage>
 </template>

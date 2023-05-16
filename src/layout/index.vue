@@ -36,7 +36,13 @@ const themeStore = useThemeStore()
 
     <article flex-1 flex-col overflow-hidden>
       <header
-        bg-white px-15 border-b bc-eee flex items-center dark="bg-dark border-0"
+        bg-white
+        px-15
+        border-b
+        bc-eee
+        flex
+        items-center
+        dark="bg-dark border-0"
         :style="`height: ${themeStore.header.height}px`"
       >
         <AppHeader />
@@ -50,4 +56,3 @@ const themeStore = useThemeStore()
     </article>
   </n-layout>
 </template>
-

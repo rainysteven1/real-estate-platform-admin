@@ -18,8 +18,7 @@ export default [
             token: token[name],
           },
         }
-      }
-      else {
+      } else {
         return {
           code: -1,
           message: '没有此用户',

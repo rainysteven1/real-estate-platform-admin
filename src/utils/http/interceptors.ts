@@ -6,8 +6,7 @@ import type { RequestConfig } from '~/types/axios'
 /** 请求拦截 */
 export function reqResolve(config: RequestConfig) {
   // 处理不需要token的请求
-  if (config.noNeedToken)
-    return config
+  if (config.noNeedToken) return config
 
   const token = getToken()
   if (!token)
@@ -20,8 +19,7 @@ export function reqResolve(config: RequestConfig) {
   const Authorization = config.headers?.Authorization || `Bearer ${token}`
   if (config.headers)
     config.headers.Authorization = config.headers.Authorization || `Bearer ${token}`
-  else
-    config.headers = { Authorization }
+  else config.headers = { Authorization }
 
   return config
 }
@@ -65,5 +63,7 @@ export function resReject(error: AxiosError) {
   const { noNeedTip } = config as RequestConfig
 
   !noNeedTip && window.$message?.error(message)
-  return Promise.reject(new AxiosRejectError({ code, message, data: error.response?.data || error.response }))
+  return Promise.reject(
+    new AxiosRejectError({ code, message, data: error.response?.data || error.response }),
+  )
 }

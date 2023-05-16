@@ -14,8 +14,8 @@
     "build": "vite build",
     "build:github": "vite build --mode github",
     "preview": "vite preview",
-    "lint": "eslint --ext .js,.ts,.vue .",
-    "lint:fix": "eslint --fix --ext .js,.ts,.vue .",
+    "lint": "eslint src --ext .js,.ts,.vue .",
+    "fix": "eslint src --fix --ext .js,.ts,.vue .",
     "lint:staged": "lint-staged",
     "prepare": "husky install",
     "preinstall": "npx only-allow pnpm"

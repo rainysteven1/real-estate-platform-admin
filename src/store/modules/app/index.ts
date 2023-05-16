@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const useAppStore = defineStore('app', {
   state() {
     return {
-      reloadFlag: <boolean> true,
+      reloadFlag: <boolean>true,
     }
   },
   actions: {

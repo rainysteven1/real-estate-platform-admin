@@ -95,7 +95,10 @@ const columns: any = [
             style: 'margin-left: 15px;',
             onClick: () => handleEdit(row),
           },
-          { default: () => '编辑', icon: renderIcon('material-symbols:edit-outline', { size: 14 }) },
+          {
+            default: () => '编辑',
+            icon: renderIcon('material-symbols:edit-outline', { size: 14 }),
+          },
         ),
 
         h(
@@ -106,7 +109,10 @@ const columns: any = [
             style: 'margin-left: 15px;',
             onClick: () => handleDelete(row.id),
           },
-          { default: () => '删除', icon: renderIcon('material-symbols:delete-outline', { size: 14 }) },
+          {
+            default: () => '删除',
+            icon: renderIcon('material-symbols:delete-outline', { size: 14 }),
+          },
         ),
       ]
     },
@@ -115,14 +121,12 @@ const columns: any = [
 
 // 选中事件
 function onChecked(rowKeys: string[]) {
-  if (rowKeys.length)
-    window.$message?.info(`选中${rowKeys.join(' ')}`)
+  if (rowKeys.length) window.$message?.info(`选中${rowKeys.join(' ')}`)
 }
 
 // 发布
 function handlePublish(row: any) {
-  if (isNullOrUndef(row.id))
-    return
+  if (isNullOrUndef(row.id)) return
 
   row.publishing = true
   setTimeout(() => {
@@ -142,10 +146,12 @@ onMounted(() => {
     <template #action>
       <div>
         <NButton type="primary" secondary @click="$table?.handleExport()">
-          <TheIcon icon="mdi:download" :size="18" class="mr-5" /> 导出
+          <TheIcon icon="mdi:download" :size="18" class="mr-5" />
+          导出
         </NButton>
         <NButton type="primary" class="ml-16" @click="handleAdd">
-          <TheIcon icon="material-symbols:add" :size="18" class="mr-5" /> 新建文章
+          <TheIcon icon="material-symbols:add" :size="18" class="mr-5" />
+          新建文章
         </NButton>
       </div>
     </template>

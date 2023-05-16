@@ -56,11 +56,11 @@ export function getNaiveThemeOverrides(colors: Record<ColorType, string>): Globa
 /** 获取主题颜色的各种场景对应的颜色 */
 function getThemeColors(colors: [ColorType, string][]) {
   const colorActions: ColorAction[] = [
-    { scene: '', handler: color => color },
-    { scene: 'Suppl', handler: color => color },
-    { scene: 'Hover', handler: color => getColorPalette(color, 5) },
-    { scene: 'Pressed', handler: color => getColorPalette(color, 7) },
-    { scene: 'Active', handler: color => addColorAlpha(color, 0.1) },
+    { scene: '', handler: (color) => color },
+    { scene: 'Suppl', handler: (color) => color },
+    { scene: 'Hover', handler: (color) => getColorPalette(color, 5) },
+    { scene: 'Pressed', handler: (color) => getColorPalette(color, 7) },
+    { scene: 'Active', handler: (color) => addColorAlpha(color, 0.1) },
   ]
 
   const themeColor: ThemeColor = {}

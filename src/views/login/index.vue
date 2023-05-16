@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useStorage } from '@vueuse/core'
-import api from './api'
+import { login } from '@/api/user/index'
+import type { LoginInfo } from '@/api/user/type'
 import { getLocal, removeLocal, setLocal, setToken } from '@/utils'
 import bgImg from '@/assets/images/login_bg.webp'
 import { addDynamicRoutes } from '@/router'
@@ -10,11 +11,6 @@ const title: string = import.meta.env.VITE_APP_TITLE
 const router = useRouter()
 const route = useRoute()
 const query = route.query
-
-interface LoginInfo {
-  name: string
-  password: string
-}
 
 const loginInfo = ref<LoginInfo>({
   name: '',
@@ -37,25 +33,21 @@ async function handleLogin() {
   }
   try {
     loging.value = true
-    const res: any = await api.login({ name, password: password.toString() })
+    const res: any = await login({ name, password: password.toString() })
     window.$notification?.success({ title: '登录成功！', duration: 2500 })
     setToken(res.data.token)
-    if (isRemember.value)
-      setLocal('loginInfo', { name, password })
-    else
-      removeLocal('loginInfo')
+    if (isRemember.value) setLocal('loginInfo', { name, password })
+    else removeLocal('loginInfo')
 
     await addDynamicRoutes()
     if (query.redirect) {
       const path = query.redirect as string
       Reflect.deleteProperty(query, 'redirect')
       router.push({ path, query })
-    }
-    else {
+    } else {
       router.push('/')
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error)
   }
   loging.value = false
@@ -66,12 +58,13 @@ async function handleLogin() {
   <AppPage :show-footer="true" bg-cover :style="{ backgroundImage: `url(${bgImg})` }">
     <div m-auto p-15 f-c-c min-w-345 rounded-10 card-shadow bg-white dark:bg-dark bg-opacity-60>
       <div w-380 hidden md:block px-20 py-35>
-        <img src="@/assets/images/login_banner.webp" w-full alt="login_banner">
+        <img src="@/assets/images/login_banner.webp" w-full alt="login_banner" />
       </div>
 
       <div w-320 flex-col px-20 py-35>
         <h5 f-c-c text-24 font-normal color="#6a6a6a">
-          <icon-custom-logo mr-30 text-50 color-primary />{{ title }}
+          <icon-custom-logo mr-30 text-50 color-primary />
+          {{ title }}
         </h5>
         <div mt-30>
           <n-input
@@ -95,11 +88,23 @@ async function handleLogin() {
         </div>
 
         <div mt-20>
-          <n-checkbox :checked="isRemember" label="记住我" :on-update:checked="(val:boolean) => (isRemember = val)" />
+          <n-checkbox
+            :checked="isRemember"
+            label="记住我"
+            :on-update:checked="(val:boolean) => (isRemember = val)"
+          />
         </div>
 
         <div mt-20>
-          <n-button w-full h-50 rounded-5 text-16 type="primary" :loading="loging" @click="handleLogin">
+          <n-button
+            w-full
+            h-50
+            rounded-5
+            text-16
+            type="primary"
+            :loading="loging"
+            @click="handleLogin"
+          >
             登录
           </n-button>
         </div>
@@ -107,4 +112,3 @@ async function handleLogin() {
     </div>
   </AppPage>
 </template>
-

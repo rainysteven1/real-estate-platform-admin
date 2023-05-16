@@ -10,13 +10,10 @@ import { setupMockPlugin } from './mock'
 
 export function setupVitePlugins(viteEnv: ViteEnv, isBuild: boolean): PluginOption[] {
   const plugins = [vue(), ...unplugins, unocss(), setupHtmlPlugin(viteEnv)]
-  if (viteEnv.VITE_USE_MOCK)
-    plugins.push(setupMockPlugin(isBuild))
+  if (viteEnv.VITE_USE_MOCK) plugins.push(setupMockPlugin(isBuild))
 
   if (viteEnv.VITE_USE_COMPRESS) {
-    plugins.push(
-      viteCompression({ algorithm: viteEnv.VITE_COMPRESS_TYPE || 'gzip' }),
-    )
+    plugins.push(viteCompression({ algorithm: viteEnv.VITE_COMPRESS_TYPE || 'gzip' }))
   }
 
   if (isBuild) {
