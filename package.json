@@ -16,7 +16,6 @@
     "preview": "vite preview",
     "lint": "eslint src --ext .js,.ts,.vue .",
     "fix": "eslint src --fix --ext .js,.ts,.vue .",
-    "lint:staged": "lint-staged",
     "prepare": "husky install",
     "preinstall": "npx only-allow pnpm"
   },
@@ -85,7 +84,7 @@
   },
   "lint-staged": {
     "*.{js,ts,vue}": [
-      "eslint --ext .js,.ts,.vue ."
+      "eslint --ext --fix .js,.ts,.vue ."
     ]
   }
 }
