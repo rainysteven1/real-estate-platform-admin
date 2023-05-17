@@ -24,9 +24,8 @@ export default defineConfig((configEnv: ConfigEnv) => {
     define: viteDefine,
     plugins: setupVitePlugins(viteEnv, isBuild),
     server: {
-      host: '0.0.0.0',
       port: VITE_PORT,
-      open: false,
+      open: true,
       proxy: createViteProxy(VITE_USE_PROXY, VITE_PROXY_TYPE as ProxyType),
     },
     build: {
