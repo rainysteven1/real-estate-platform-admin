@@ -6,13 +6,12 @@ import 'virtual:svg-icons-register'
 import { createApp } from 'vue'
 import App from './App.vue'
 import { setupStore } from './store'
-import { setupRouter } from './router'
+import router from './router'
 
 async function setupApp() {
   const app = createApp(App)
   setupStore(app)
-  await setupRouter(app)
-  app.mount('#app')
+  app.use(router).mount('#app')
 }
 
 setupApp()

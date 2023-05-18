@@ -1,57 +1,88 @@
+<!-- eslint-disable no-debugger -->
+<!-- eslint-disable no-undef -->
 <script setup lang="ts">
-import { useStorage } from '@vueuse/core'
-import { login } from '@/api/user/index'
-import type { LoginInfo } from '@/api/user/type'
-import { getLocal, removeLocal, setLocal, setToken } from '@/utils'
 import bgImg from '@/assets/images/login_bg.webp'
-import { addDynamicRoutes } from '@/router'
+import { useStorage } from '@vueuse/core'
+import { getCodeImg } from '@/api/user/index'
+import { getLocal, removeLocal, setLocal } from '@/utils'
+import type { LoginItem, CaptchaImageResult } from '@/api/user/type'
+import { useUserStore } from '~/src/store'
+import { AxiosResponse } from 'axios'
 
 const title: string = import.meta.env.VITE_APP_TITLE
 
+const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
 const query = route.query
 
-const loginInfo = ref<LoginInfo>({
-  name: '',
-  password: '',
-})
-
-const localLoginInfo = getLocal('loginInfo') as LoginInfo
-if (localLoginInfo) {
-  loginInfo.value.name = localLoginInfo.name || ''
-  loginInfo.value.password = localLoginInfo.password || ''
-}
-
+const codeURL = ref<string>('')
+// 验证码开关
+const captchaOnOff = ref<boolean>(true)
 const loging = ref<boolean>(false)
 const isRemember = useStorage('isRemember', false)
+const loginItem = ref<LoginItem>({
+  username: '',
+  password: '',
+  code: '',
+  uuid: '',
+})
+
+const localLoginInfo = getLocal('loginInfo') as LoginItem
+if (localLoginInfo) {
+  loginItem.value.username = localLoginInfo.username || ''
+  loginItem.value.password = localLoginInfo.password || ''
+}
+function getCode() {
+  getCodeImg().then((res: AxiosResponse<CaptchaImageResult, any>) => {
+    const data = res.data.data
+    captchaOnOff.value = data.captchaOnOff === undefined ? true : data.captchaOnOff
+    if (captchaOnOff.value) {
+      codeURL.value = data.img
+      loginItem.value.uuid = data.uuid
+    }
+  })
+}
+
 async function handleLogin() {
-  const { name, password } = loginInfo.value
-  if (!name || !password) {
+  const { username, password, code, uuid } = loginItem.value
+  if (!username || !password) {
     window.$message?.warning('请输入用户名和密码')
     return
   }
+  if (!code) {
+    window.$message?.warning('请输入验证码')
+    return
+  }
+
+  loging.value = true
   try {
-    loging.value = true
-    const res: any = await login({ name, password: password.toString() })
-    window.$notification?.success({ title: '登录成功！', duration: 2500 })
-    setToken(res.data.token)
-    if (isRemember.value) setLocal('loginInfo', { name, password })
+    await userStore.userLogin({
+      username,
+      password: password.toString(),
+      code: code.toString(),
+      uuid: uuid,
+    })
+    if (isRemember.value) setLocal('loginInfo', { username, password }, 60 * 30)
     else removeLocal('loginInfo')
 
-    await addDynamicRoutes()
     if (query.redirect) {
       const path = query.redirect as string
       Reflect.deleteProperty(query, 'redirect')
       router.push({ path, query })
     } else {
       router.push('/')
+      window.$message?.success('登录成功')
     }
   } catch (error) {
-    console.error(error)
+    window.$message?.error((error as Error).message)
+    console.log(error)
   }
+
   loging.value = false
 }
+
+getCode()
 </script>
 
 <template>
@@ -68,26 +99,54 @@ async function handleLogin() {
         </h5>
         <div mt-30>
           <n-input
-            v-model:value="loginInfo.name"
+            v-model:value="loginItem.username"
             autofocus
-            class="text-16 items-center h-50 pl-10"
-            placeholder="admin"
+            class="text-16 items-center h-40 pl-10"
+            placeholder="用户名/邮箱"
             :maxlength="20"
-          />
+          >
+            <template #prefix>
+              <n-icon size="16">
+                <icon-mdi:account-outline></icon-mdi:account-outline>
+              </n-icon>
+            </template>
+          </n-input>
         </div>
-        <div mt-30>
+        <div mt-20>
           <n-input
-            v-model:value="loginInfo.password"
-            class="text-16 items-center h-50 pl-10"
+            v-model:value="loginItem.password"
+            class="text-16 items-center h-40 pl-10"
             type="password"
             show-password-on="mousedown"
-            placeholder="123456"
+            placeholder="密码"
             :maxlength="20"
-            @keydown.enter="handleLogin"
-          />
+          >
+            <template #prefix>
+              <n-icon size="16">
+                <icon-mdi:lock-outline></icon-mdi:lock-outline>
+              </n-icon>
+            </template>
+          </n-input>
         </div>
-
-        <div mt-20>
+        <div mt-20 v-if="captchaOnOff">
+          <n-input
+            v-model:value="loginItem.code"
+            class="text-16 items-center h-40 pl-10"
+            style="width: 60%"
+            placeholder="验证码"
+            :maxlength="6"
+          >
+            <template #prefix>
+              <n-icon size="16">
+                <icon-mdi:check-circle-outline></icon-mdi:check-circle-outline>
+              </n-icon>
+            </template>
+          </n-input>
+          <div style="width: 33%; cursor: pointer; vertical-align: middle" h-40 float-right>
+            <img :src="codeURL" @click="getCode" />
+          </div>
+        </div>
+        <div mt-30>
           <n-checkbox
             :checked="isRemember"
             label="记住我"
