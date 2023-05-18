@@ -1,7 +1,5 @@
-import type { App } from 'vue'
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
-import { setupRouterGuard } from './guard'
-import { EMPTY_ROUTE, NOT_FOUND_ROUTE, basicRoutes } from './routes'
+import { EMPTY_ROUTE, NOT_FOUND_ROUTE, constantRoutes } from './routes'
 import { getToken, isNullOrWhitespace } from '@/utils'
 import { usePermissionStore, useUserStore } from '@/store'
 import type { RouteType, RoutesType } from '~/types/router'
@@ -9,15 +7,15 @@ import type { RouteType, RoutesType } from '~/types/router'
 const isHash = import.meta.env.VITE_USE_HASH === 'true'
 export const router = createRouter({
   history: isHash ? createWebHashHistory('/') : createWebHistory('/'),
-  routes: basicRoutes,
+  routes: constantRoutes,
   scrollBehavior: () => ({ left: 0, top: 0 }),
 })
 
-export async function setupRouter(app: App) {
-  await addDynamicRoutes()
-  setupRouterGuard(router)
-  app.use(router)
-}
+// export async function setupRouter(app: App) {
+//   await addDynamicRoutes()
+//   setupRouterGuard(router)
+//   app.use(router)
+// }
 
 export async function addDynamicRoutes() {
   const token = getToken()
@@ -45,7 +43,7 @@ export async function addDynamicRoutes() {
 }
 
 export async function resetRouter() {
-  const basicRouteNames = getRouteNames(basicRoutes)
+  const basicRouteNames = getRouteNames(constantRoutes)
   router.getRoutes().forEach((route) => {
     const name = route.name as string
     if (!basicRouteNames.includes(name)) router.removeRoute(name)
@@ -63,3 +61,5 @@ function getRouteName(route: RouteType) {
 
   return names
 }
+
+export default router

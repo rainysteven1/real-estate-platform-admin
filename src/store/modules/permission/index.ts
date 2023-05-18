@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { filterAsyncRoutes } from './helpers'
-import { asyncRoutes, basicRoutes } from '@/router/routes'
+import { asyncRoutes, constantRoutes } from '@/router/routes'
 import type { RoutesType } from '~/types/router'
 
 export const usePermissionStore = defineStore('permission', {
@@ -11,7 +11,7 @@ export const usePermissionStore = defineStore('permission', {
   },
   getters: {
     routes(): RoutesType {
-      return basicRoutes.concat(this.accessRoutes)
+      return constantRoutes.concat(this.accessRoutes)
     },
     menus(): RoutesType {
       return this.routes.filter((route) => route.name && !route.isHidden)
